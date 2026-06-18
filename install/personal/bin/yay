@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Forward yay invocations to paru for upstream scripts that call yay directly.
+exec paru "$@"
