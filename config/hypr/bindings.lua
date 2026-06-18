@@ -1,41 +1,52 @@
--- Application bindings.
-o.bind("SUPER + RETURN", "Terminal", { omarchy = "terminal" })
+-- Personal keybind overrides. See PERSONAL.md.
+
+hl.unbind("SUPER + RETURN")
+hl.unbind("SUPER + SPACE")
+hl.unbind("SUPER + backslash")
+hl.unbind("SUPER + C")
+hl.unbind("SUPER + V")
+hl.unbind("SUPER + X")
+hl.unbind("SUPER + S")
+hl.unbind("SUPER + J")
+hl.unbind("SUPER + K")
+hl.unbind("SUPER + L")
+hl.unbind("SUPER + W")
+hl.unbind("SUPER + grave")
+hl.unbind("SUPER + ALT + SPACE")
+
+hl.bind("SUPER + backslash", hl.dsp.exec_cmd([[uwsm-app -- xdg-terminal-exec --dir="$(omarchy-cmd-terminal-cwd)"]]), { description = "Terminal" })
+hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("omarchy-launch-walker"), { description = "Launch apps" })
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("omarchy-menu"), { description = "Omarchy menu" })
+hl.bind("SUPER + SHIFT + K", hl.dsp.exec_cmd("omarchy-menu-keybindings"), { description = "Show key bindings" })
+
+hl.bind("SUPER + H", hl.dsp.focus({ direction = "l" }), { description = "Focus left" })
+hl.bind("SUPER + J", hl.dsp.focus({ direction = "d" }), { description = "Focus down" })
+hl.bind("SUPER + K", hl.dsp.focus({ direction = "u" }), { description = "Focus up" })
+hl.bind("SUPER + L", hl.dsp.focus({ direction = "r" }), { description = "Focus right" })
+
+hl.bind("SUPER + S", hl.dsp.layout("togglesplit"), { description = "Toggle split orientation" })
+hl.bind("SUPER + C", hl.dsp.window.close(), { description = "Close window" })
+
+hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("scratchpad"), { description = "Toggle scratchpad" })
+hl.bind("SUPER + ALT + grave", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }), { description = "Move window to scratchpad" })
+
+hl.bind("SUPER + SHIFT + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "Insert" }), { description = "Universal copy" })
+hl.bind("SUPER + SHIFT + V", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { description = "Universal paste" })
+hl.bind("SUPER + SHIFT + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X" }), { description = "Universal cut" })
+
 o.bind("SUPER + ALT + RETURN", "Tmux", { omarchy = "terminal-tmux" })
 o.bind("SUPER + SHIFT + RETURN", "Browser", { omarchy = "browser" })
 o.bind("SUPER + SHIFT + F", "File manager", { omarchy = "nautilus" })
 o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", { omarchy = "nautilus-cwd" })
 o.bind("SUPER + SHIFT + B", "Browser", { omarchy = "browser" })
 o.bind("SUPER + SHIFT + ALT + B", "Browser (private)", { omarchy = "browser --private" })
-o.bind("SUPER + SHIFT + M", "Music", { omarchy = "or-focus spotify" })
-o.bind("SUPER + SHIFT + ALT + M", "Music TUI", { tui = "cliamp", focus = true })
+o.bind("SUPER + SHIFT + M", "YouTube Music", { webapp = "https://music.youtube.com" })
 o.bind("SUPER + SHIFT + N", "Editor", { omarchy = "editor" })
 o.bind("SUPER + SHIFT + D", "Docker", { tui = "lazydocker" })
-o.bind("SUPER + SHIFT + G", "Signal", { launch = "signal-desktop", focus = "^signal$" })
+o.bind("SUPER + SHIFT + G", "Discord", { webapp = "https://discord.com/channels/@me" })
+o.bind("SUPER + SHIFT + T", "Teams", { webapp = "https://teams.microsoft.com" })
 o.bind("SUPER + SHIFT + O", "Obsidian", { launch = "obsidian", focus = "^obsidian$" })
-o.bind("SUPER + SHIFT + W", "Typora", { launch = "typora --enable-wayland-ime" })
 o.bind("SUPER + SHIFT + SLASH", "Passwords", { launch = "1password" })
 
--- Web app bindings.
 o.bind("SUPER + SHIFT + A", "ChatGPT", { webapp = "https://chatgpt.com" })
-o.bind("SUPER + SHIFT + ALT + A", "Grok", { webapp = "https://grok.com" })
-o.bind("SUPER + SHIFT + C", "Calendar", { webapp = "https://app.hey.com/calendar/weeks/" })
-o.bind("SUPER + SHIFT + E", "Email", { webapp = "https://app.hey.com" })
 o.bind("SUPER + SHIFT + Y", "YouTube", { webapp = "https://youtube.com/" })
-o.bind("SUPER + SHIFT + ALT + G", "WhatsApp", { webapp = "https://web.whatsapp.com/", focus = true })
-o.bind("SUPER + SHIFT + CTRL + G", "Google Messages", { webapp = "https://messages.google.com/web/conversations", focus = true })
-o.bind("SUPER + SHIFT + P", "Google Photos", { webapp = "https://photos.google.com/", focus = true })
-o.bind("SUPER + SHIFT + S", "Google Maps", { webapp = "https://maps.google.com/", focus = true })
-o.bind("SUPER + SHIFT + X", "X", { webapp = "https://x.com/" })
-o.bind("SUPER + SHIFT + ALT + X", "X Post", { webapp = "https://x.com/compose/post" })
-
--- Add extra bindings below.
--- o.bind("SUPER + SHIFT + R", "SSH", "alacritty -e ssh your-server")
-
--- Overwrite existing bindings with hl.unbind() first if needed.
--- hl.unbind("SUPER + SPACE")
--- o.bind("SUPER + SPACE", "Omarchy menu", "omarchy-menu")
-
--- Logitech MX Keys examples:
--- o.bind("SUPER + SHIFT + S", nil, "omarchy-capture-screenshot")
--- o.bind("SUPER + H", nil, "voxtype record toggle")
--- o.bind("SUPER + PERIOD", nil, { omarchy = "walker -m symbols" })
