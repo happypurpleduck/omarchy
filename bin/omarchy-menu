@@ -397,6 +397,8 @@ browser_desktop_exists() {
 
 show_setup_default_browser_menu() {
   local options=""
+  browser_desktop_exists helium.desktop && options="${options:+$options\n}󰖟  Helium"
+  browser_desktop_exists helium-browser.desktop && options="${options:+$options\n}󰖟  Helium"
   browser_desktop_exists chromium.desktop && options="$options  Chromium"
   browser_desktop_exists google-chrome.desktop && options="${options:+$options\n}󰊯  Chrome"
   browser_desktop_exists brave-browser.desktop && options="${options:+$options\n}󰖟  Brave"
@@ -407,6 +409,7 @@ show_setup_default_browser_menu() {
 
   local current=""
   case "$(omarchy-default-browser)" in
+  helium) current="󰖟  Helium" ;;
   chromium) current="  Chromium" ;;
   chrome) current="󰊯  Chrome" ;;
   brave) current="󰖟  Brave" ;;
@@ -417,6 +420,7 @@ show_setup_default_browser_menu() {
   esac
 
   case $(menu "Default Browser" "$options" "" "$current") in
+  *Helium*) omarchy-default-browser helium ;;
   *Chromium*) omarchy-default-browser chromium ;;
   *Chrome*) omarchy-default-browser chrome ;;
   *"Brave Origin"*) omarchy-default-browser brave-origin ;;
