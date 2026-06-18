@@ -9,3 +9,4 @@ run_logged $OMARCHY_INSTALL/packaging/asus-rog.sh
 run_logged $OMARCHY_INSTALL/packaging/framework16.sh
 run_logged $OMARCHY_INSTALL/packaging/dell-xps-touchpad-haptics.sh
 run_logged $OMARCHY_INSTALL/packaging/surface.sh
+[[ -f $OMARCHY_INSTALL/personal/packaging/all.sh ]] && source $OMARCHY_INSTALL/personal/packaging/all.sh
