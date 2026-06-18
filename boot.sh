@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Set install mode to online since boot.sh is used for curl installations
-export OMARCHY_ONLINE_INSTALL=true
+set -e
+
+export OMARCHY_ONLINE_INSTALL=false
 
 ansi_art='                 ▄▄▄
  ▄█████▄    ▄███████████▄    ▄███████   ▄███████   ▄███████   ▄█   █▄    ▄█   █▄
@@ -14,37 +15,35 @@ ansi_art='                 ▄▄▄
  ▀█████▀    ▀█   ███   █▀   ███   █▀   ███   ███  ███████▀   ███   █▀    ▀█████▀
                                        ███   █▀                                  '
 
-clear
+clear 2>/dev/null || true
 echo -e "\n$ansi_art\n"
+echo -e "\e[32mOmarchy Personal — CachyOS Hyprland setup\e[0m\n"
 
-# Use custom branch if instructed, otherwise default to master
-OMARCHY_REF="${OMARCHY_REF:-master}"
+SOURCE_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+TARGET_DIR="$HOME/.local/share/omarchy"
 
-# Set mirror based on branch
-if [[ $OMARCHY_REF == "dev" ]]; then
-  export OMARCHY_MIRROR=edge
-  echo 'Server = https://mirror.omarchy.org/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist >/dev/null
-elif [[ $OMARCHY_REF == "rc" ]]; then
-  export OMARCHY_MIRROR=rc
-  echo 'Server = https://rc-mirror.omarchy.org/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist >/dev/null
-else
-  export OMARCHY_MIRROR=stable
-  echo 'Server = https://stable-mirror.omarchy.org/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist >/dev/null
+if [[ $SOURCE_DIR != "$TARGET_DIR" ]]; then
+  echo "Installing Omarchy to $TARGET_DIR ..."
+  mkdir -p "$(dirname "$TARGET_DIR")"
+  if [[ -d $TARGET_DIR/.git ]]; then
+    echo "Updating existing install from $SOURCE_DIR"
+    rsync -a --delete --exclude .git "$SOURCE_DIR/" "$TARGET_DIR/"
+  else
+    rm -rf "$TARGET_DIR"
+    cp -a "$SOURCE_DIR" "$TARGET_DIR"
+  fi
 fi
 
-sudo pacman -Syu --noconfirm --needed git
+export PATH="$TARGET_DIR/bin:$PATH"
 
-# Use custom repo if specified, otherwise default to basecamp/omarchy
-OMARCHY_REPO="${OMARCHY_REPO:-basecamp/omarchy}"
+if ! grep -q 'omarchy/bin' "$HOME/.bashrc" 2>/dev/null; then
+  cat >>"$HOME/.bashrc" <<'EOF'
 
-echo -e "\nCloning Omarchy from: https://github.com/${OMARCHY_REPO}.git"
-rm -rf ~/.local/share/omarchy/
-git clone "https://github.com/${OMARCHY_REPO}.git" ~/.local/share/omarchy >/dev/null
-
-echo -e "\e[32mUsing branch: $OMARCHY_REF\e[0m"
-cd ~/.local/share/omarchy
-git fetch origin "${OMARCHY_REF}" && git checkout "${OMARCHY_REF}"
-cd -
+# Omarchy
+export PATH="$HOME/.local/share/omarchy/bin:$PATH"
+EOF
+  echo "Added Omarchy to PATH in ~/.bashrc"
+fi
 
 echo -e "\nInstallation starting..."
-source ~/.local/share/omarchy/install.sh
+source "$TARGET_DIR/install.sh"
