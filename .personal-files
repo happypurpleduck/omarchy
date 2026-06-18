@@ -1,0 +1,42 @@
+# Personal overlay manifest — prefer these paths on rebase conflicts.
+# Upstream hook files (expect occasional conflicts): install/preflight/all.sh,
+# install/post-install/all.sh, install/config/all.sh, install/packaging/base.sh,
+# install/packaging/all.sh, install.sh, install/preflight/guard.sh,
+# install/config/hardware/nvidia.sh, config/uwsm/env, bin/* (surgical edits).
+
+boot.sh
+PERSONAL.md
+.personal-files
+scripts/verify.sh
+scripts/apply-personal-overlay.sh
+
+install/personal/preflight/all.sh
+install/personal/post-install/all.sh
+install/personal/config/all.sh
+install/personal/config/theme.sh
+install/personal/config/mimetypes.sh
+install/personal/config/fish.sh
+install/personal/config/keyboard-arabic.sh
+install/personal/packaging/base.sh
+install/personal/packaging/all.sh
+install/personal/packaging/zed.sh
+install/personal/packaging/webapps.sh
+install/personal/bin/yay
+install/personal/packages.add
+install/personal/packages.remove
+install/personal/packages.on-demand
+install/personal/patches/network-iwd.sh
+install/personal/patches/walker-pin.sh
+
+config/hypr/bindings.lua
+config/hypr/input.lua
+config/fontconfig/fonts.conf
+config/helium-browser-flags.conf
+config/fish/conf.d/omarchy.fish
+config/uwsm/default
+config/uwsm/env
+config/waybar/config.jsonc
+
+default/bash/aliases
+default/mako/core.ini
+default/omarchy-skill/SKILL.md
