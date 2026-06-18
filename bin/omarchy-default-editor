@@ -10,14 +10,14 @@ if (($# == 0)); then
 fi
 
 case "$1" in
-code) editor="code"; name="VSCode"; glyph="" ;;
-cursor) editor="cursor"; name="Cursor"; glyph="" ;;
-zed | zeditor) editor="zeditor"; name="Zed"; glyph="" ;;
-sublime_text) editor="sublime_text"; name="Sublime Text"; glyph="" ;;
-helix) editor="helix"; name="Helix"; glyph="" ;;
-vim) editor="vim"; name="Vim"; glyph="" ;;
-emacs) editor="emacs"; name="Emacs"; glyph="" ;;
-nvim) editor="nvim"; name="Neovim"; glyph="" ;;
+code) editor="code"; visual="code"; name="VSCode"; glyph="" ;;
+cursor) editor="cursor"; visual="cursor"; name="Cursor"; glyph="" ;;
+zed | zeditor) editor="nvim"; visual="zeditor"; name="Zed"; glyph="" ;;
+sublime_text) editor="sublime_text"; visual="sublime_text"; name="Sublime Text"; glyph="" ;;
+helix) editor="helix"; visual="helix"; name="Helix"; glyph="" ;;
+vim) editor="vim"; visual="vim"; name="Vim"; glyph="" ;;
+emacs) editor="emacs"; visual="emacs"; name="Emacs"; glyph="" ;;
+nvim) editor="nvim"; visual="nvim"; name="Neovim"; glyph="" ;;
 *)
   echo "Usage: omarchy-default-editor <code|cursor|zed|sublime_text|helix|vim|emacs|nvim>"
   exit 1
@@ -25,6 +25,12 @@ nvim) editor="nvim"; name="Neovim"; glyph="" ;;
 esac
 
 sed -i "s/^export EDITOR=.*/export EDITOR=$editor/" ~/.config/uwsm/default
+if grep -q '^export VISUAL_EDITOR=' ~/.config/uwsm/default; then
+  sed -i "s/^export VISUAL_EDITOR=.*/export VISUAL_EDITOR=$visual/" ~/.config/uwsm/default
+else
+  echo "export VISUAL_EDITOR=$visual" >>~/.config/uwsm/default
+fi
 
 export EDITOR="$editor"
+export VISUAL_EDITOR="$visual"
 notify-send -u low "$glyph    $name is now the default editor" "      Effective after logging out"
