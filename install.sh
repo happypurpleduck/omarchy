@@ -14,5 +14,6 @@ source "$OMARCHY_INSTALL/helpers/all.sh"
 source "$OMARCHY_INSTALL/preflight/all.sh"
 source "$OMARCHY_INSTALL/packaging/all.sh"
 source "$OMARCHY_INSTALL/config/all.sh"
-source "$OMARCHY_INSTALL/login/all.sh"
+# CachyOS: skip login stage (SDDM/Plymouth/Limine) — existing boot setup preserved
+# source "$OMARCHY_INSTALL/login/all.sh"
 source "$OMARCHY_INSTALL/post-install/all.sh"
