@@ -390,3 +390,31 @@ This skill intentionally does not cover Omarchy source development. Do not use t
 - "Customize the catppuccin theme colors" -> Create `~/.config/omarchy/themes/catppuccin-custom/` by copying from stock, then edit
 - "Run a script every time I change themes" -> Create `~/.config/omarchy/hooks/theme-set`
 - "Reset waybar to defaults" -> `omarchy refresh waybar`
+
+## Personal fork (CachyOS / omarchy-personal)
+
+This repository is a **personal overlay** on upstream Omarchy dev, tuned for **CachyOS + Hyprland**. It keeps omarchy naming and paths (`~/.local/share/omarchy/`).
+
+### Install model
+
+- Local install via `./boot.sh` (rsync to `~/.local/share/omarchy`, no online curl clone)
+- Skip login stage on CachyOS (preserve existing bootloader/display manager)
+- Skip upstream pacman.conf overwrite; add omarchy repo in `install/personal/preflight/`
+- **paru** replaces yay; `install/personal/bin/yay` wrapper keeps upstream AUR scripts working
+
+### Personal preferences
+
+- **Browser:** Helium (`helium-browser-bin`) — default browser, theme sync, flags in `config/helium-browser-flags.conf`
+- **Editors:** Zed (`VISUAL_EDITOR`) + Neovim/omarchy-nvim (`EDITOR`)
+- **Keyboard:** `us,ara` with Alt+Shift layout toggle; Arabic fontconfig rules
+- **Theme default:** Catppuccin
+- **Waybar:** no update module; menu tooltip Super+Space
+- **Network:** impala + iwd with NM iwd backend patch
+
+### Rebase workflow
+
+See `PERSONAL.md` and `.personal-files` in the repo root. After `git rebase upstream/dev`, run `./scripts/apply-personal-overlay.sh` and `./scripts/verify.sh`.
+
+### Safe edit locations (unchanged)
+
+Never edit `~/.local/share/omarchy/` on an installed system for end-user customization — use `~/.config/` instead. This skill still applies; paths use omarchy naming, not hachy.
