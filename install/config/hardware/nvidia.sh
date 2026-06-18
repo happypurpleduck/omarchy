@@ -1,12 +1,27 @@
 if lspci | grep -qi 'nvidia'; then
+  # CachyOS ships NVIDIA modules via kernel meta packages — skip conflicting DKMS drivers
+  CACHYOS_NVIDIA_KERNEL=false
+  if pacman -Qqs 'linux-cachyos.*nvidia' &>/dev/null; then
+    CACHYOS_NVIDIA_KERNEL=true
+    echo "CachyOS NVIDIA kernel meta package detected — skipping DKMS driver install"
+  fi
+
   # Check which kernel is installed and set appropriate headers package
-  KERNEL_HEADERS="$(pacman -Qqs '^linux(-zen|-lts|-hardened)?$' | head -1)-headers"
+  KERNEL_HEADERS="$(pacman -Qqs '^linux(-zen|-lts|-hardened|-cachyos)?$' | head -1)-headers"
 
   if omarchy-hw-nvidia-gsp; then
-    PACKAGES=(nvidia-open-dkms nvidia-utils lib32-nvidia-utils libva-nvidia-driver)
+    if [[ $CACHYOS_NVIDIA_KERNEL = true ]]; then
+      PACKAGES=(nvidia-utils lib32-nvidia-utils libva-nvidia-driver)
+    else
+      PACKAGES=(nvidia-open-dkms nvidia-utils lib32-nvidia-utils libva-nvidia-driver)
+    fi
     GPU_ARCH="turing_plus"
   elif omarchy-hw-nvidia-without-gsp; then
-    PACKAGES=(nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils)
+    if [[ $CACHYOS_NVIDIA_KERNEL = true ]]; then
+      PACKAGES=(nvidia-utils lib32-nvidia-utils)
+    else
+      PACKAGES=(nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils)
+    fi
     GPU_ARCH="maxwell_pascal_volta"
   fi
   # Bail if no supported GPU
@@ -15,7 +30,11 @@ if lspci | grep -qi 'nvidia'; then
     exit 0
   fi
 
-  omarchy-pkg-add "$KERNEL_HEADERS" "${PACKAGES[@]}"
+  if [[ $CACHYOS_NVIDIA_KERNEL = true ]]; then
+    omarchy-pkg-add "${PACKAGES[@]}"
+  else
+    omarchy-pkg-add "$KERNEL_HEADERS" "${PACKAGES[@]}"
+  fi
 
   # Configure modprobe for early KMS
   sudo tee /etc/modprobe.d/nvidia.conf <<EOF >/dev/null
@@ -29,7 +48,6 @@ EOF
 
   # Add NVIDIA environment variables based on GPU architecture
   if [[ $GPU_ARCH = "turing_plus" ]]; then
-    # Turing+ (RTX 20xx, GTX 16xx, and newer) with GSP firmware support
     cat >>"$HOME/.config/hypr/envs.lua" <<'EOF'
 
 -- NVIDIA (Turing+ with GSP firmware)
@@ -38,7 +56,6 @@ hl.env("LIBVA_DRIVER_NAME", "nvidia")
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 EOF
   elif [[ $GPU_ARCH = "maxwell_pascal_volta" ]]; then
-    # Maxwell/Pascal/Volta (GTX 9xx/10xx, GT 10xx, Quadro P/M/GV, MX series, Titan X/Xp/V) lack GSP firmware
     cat >>"$HOME/.config/hypr/envs.lua" <<'EOF'
 
 -- NVIDIA (Maxwell/Pascal/Volta without GSP firmware)
