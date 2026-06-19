@@ -19,7 +19,7 @@ fi
 
 # Must not be running as root
 if (( EUID == 0 )); then
-  abort "Running as user (not root)"
+  abort "Must not run as root (run as your user)"
 fi
 
 # Must be x86 only to fully work

@@ -2,13 +2,22 @@
 
 # omarchy:summary=Prompt for confirmation before starting an update
 
+# shellcheck disable=SC1091
+source "$OMARCHY_PATH/install/personal/helpers/fork-git.sh"
+
+if omarchy_fork_git_conf; then
+  whats_new="What's new: https://github.com/happypurpleduck/omarchy/commits/$OMARCHY_GIT_BRANCH"
+else
+  whats_new="What's new: https://github.com/basecamp/omarchy/releases"
+fi
+
 gum style --border normal --padding "1 2" \
   "Ready to update?" \
   "" \
   "• You cannot stop the update once you start!" \
   "• Make sure you're connected to power or have a full battery" \
   "" \
-  "What's new: https://github.com/basecamp/omarchy/releases"
+  "$whats_new"
 
 echo
 

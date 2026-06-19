@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # CachyOS: add omarchy repo without overwriting CachyOS pacman.conf via upstream hooks.
 

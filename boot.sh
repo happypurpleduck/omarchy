@@ -34,6 +34,12 @@ if [[ $SOURCE_DIR != "$TARGET_DIR" ]]; then
   fi
 fi
 
+if [[ -f $TARGET_DIR/config/omarchy/fork.conf ]]; then
+  # shellcheck disable=SC1091
+  source "$TARGET_DIR/install/personal/helpers/fork-git.sh"
+  omarchy_fork_git_bootstrap "$TARGET_DIR"
+fi
+
 export PATH="$TARGET_DIR/bin:$PATH"
 
 if ! grep -q 'omarchy/bin' "$HOME/.bashrc" 2>/dev/null; then

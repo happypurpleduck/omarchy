@@ -4,8 +4,14 @@
 
 set -e
 
-# Reinstall the Omarchy configuration directory from the git source.
+# shellcheck disable=SC1091
+source "$OMARCHY_PATH/install/personal/helpers/fork-git.sh"
 
-git clone --depth=1 --branch master "https://github.com/basecamp/omarchy.git" ~/.local/share/omarchy-new >/dev/null
+if omarchy_fork_git_conf; then
+  git clone --depth=1 --branch "$OMARCHY_GIT_BRANCH" "$OMARCHY_GIT_REMOTE" ~/.local/share/omarchy-new >/dev/null
+else
+  git clone --depth=1 --branch master "https://github.com/basecamp/omarchy.git" ~/.local/share/omarchy-new >/dev/null
+fi
+
 mv $OMARCHY_PATH ~/.local/share/omarchy-old
 mv ~/.local/share/omarchy-new $OMARCHY_PATH

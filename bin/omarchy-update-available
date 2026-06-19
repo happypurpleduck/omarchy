@@ -2,6 +2,30 @@
 
 # omarchy:summary=Get remote tag
 
+# shellcheck disable=SC1091
+source "$OMARCHY_PATH/install/personal/helpers/fork-git.sh"
+
+if omarchy_fork_git_conf; then
+  omarchy_fork_git_bootstrap "$OMARCHY_PATH"
+  git -C "$OMARCHY_PATH" fetch origin "$OMARCHY_GIT_BRANCH" &>/dev/null || true
+
+  if ! git -C "$OMARCHY_PATH" rev-parse "origin/$OMARCHY_GIT_BRANCH" &>/dev/null; then
+    echo "Error: Could not retrieve remote branch origin/$OMARCHY_GIT_BRANCH."
+    exit 1
+  fi
+
+  local_commit=$(git -C "$OMARCHY_PATH" rev-parse HEAD)
+  remote_commit=$(git -C "$OMARCHY_PATH" rev-parse "origin/$OMARCHY_GIT_BRANCH")
+
+  if [[ $local_commit != $remote_commit ]]; then
+    echo "Omarchy update available (origin/$OMARCHY_GIT_BRANCH)"
+    exit 0
+  else
+    echo "Omarchy is up to date ($OMARCHY_GIT_BRANCH)"
+    exit 1
+  fi
+fi
+
 latest_tag=$(git -C "$OMARCHY_PATH" ls-remote --tags origin | grep -v "{}" | awk '{print $2}' | sed 's#refs/tags/##' | sort -V | tail -n 1)
 if [[ -z $latest_tag ]]; then
   echo "Error: Could not retrieve latest tag."

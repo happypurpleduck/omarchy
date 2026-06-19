@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Disable wpa_supplicant to prevent conflict with iwd on CachyOS.
 sudo systemctl disable --now wpa_supplicant.service 2>/dev/null || true

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# omarchy:summary=Set the default editor for $EDITOR
+# omarchy:summary=Set the default editor for $EDITOR and $VISUAL_EDITOR
 # omarchy:args=[code|cursor|zed|sublime_text|helix|vim|emacs|nvim]
 # omarchy:examples=omarchy default editor | omarchy default editor code | omarchy default editor helix
 

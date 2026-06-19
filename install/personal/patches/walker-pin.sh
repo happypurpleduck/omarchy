@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Pin walker to omarchy repo so CachyOS doesn't override with an incompatible version.
 if ! grep -q "^IgnorePkg.*walker" /etc/pacman.conf 2>/dev/null; then

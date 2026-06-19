@@ -561,7 +561,7 @@ show_install_browser_menu() {
 }
 
 show_install_service_menu() {
-  case $(menu "Install" "  Dropbox\n  Tailscale\n󱇱  NordVPN [AUR]\n󰏖  ONCE\n☀  Sunshine\n󰟵  Bitwarden\n  Chromium Account") in
+  case $(menu "Install" "  Dropbox\n  Tailscale\n󱇱  NordVPN [AUR]\n󰏖  ONCE\n☀  Sunshine\n󰟵  Bitwarden\n  Chromium Account\n󰍹  Signal\n󰓇  Spotify") in
   *Dropbox*) present_terminal omarchy-install-dropbox ;;
   *Tailscale*) present_terminal omarchy-install-tailscale ;;
   *NordVPN*) present_terminal omarchy-install-nordvpn ;;
@@ -569,6 +569,8 @@ show_install_service_menu() {
   *Sunshine*) present_terminal omarchy-install-service-sunshine ;;
   *Bitwarden*) install_and_launch "Bitwarden" "bitwarden bitwarden-cli" "bitwarden" ;;
   *Chromium*) present_terminal omarchy-install-chromium-google-account ;;
+  *Signal*) install_and_launch "Signal" "signal-desktop" "signal-desktop" ;;
+  *Spotify*) install_and_launch "Spotify" "spotify" "spotify" ;;
   *) show_install_menu ;;
   esac
 }

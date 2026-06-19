@@ -1,4 +1,3 @@
-#!/bin/bash
 
 omarchy-default-browser helium || true
 

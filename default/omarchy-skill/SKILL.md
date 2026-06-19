@@ -408,7 +408,8 @@ This repository is a **personal overlay** on upstream Omarchy dev, tuned for **C
 - **Editors:** Zed (`VISUAL_EDITOR`) + Neovim/omarchy-nvim (`EDITOR`)
 - **Keyboard:** `us,ara` with Alt+Shift layout toggle; Arabic fontconfig rules
 - **Theme default:** Catppuccin
-- **Waybar:** no update module; menu tooltip Super+Space
+- **Updates:** waybar update module + mako update notification; git pull targets fork (`config/omarchy/fork.conf`, branch `dev`)
+- **Waybar:** menu tooltip Super+Space
 - **Network:** impala + iwd with NM iwd backend patch
 
 ### Rebase workflow

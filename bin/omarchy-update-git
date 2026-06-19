@@ -12,7 +12,10 @@ omarchy-update-time
 hyprctl keyword debug:suppress_errors true &>/dev/null || true
 hyprctl eval 'hl.config({ debug = { suppress_errors = true } })' &>/dev/null || true
 
-git -C $OMARCHY_PATH pull --autostash
+# shellcheck disable=SC1091
+source "$OMARCHY_PATH/install/personal/helpers/fork-git.sh"
+omarchy_fork_git_pull
+
 git -C $OMARCHY_PATH --no-pager diff --check || git -C $OMARCHY_PATH reset --merge
 
 hyprctl reload &>/dev/null || true

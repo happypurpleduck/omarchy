@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Personal config overlay — runs after upstream install/config/all.sh.
 

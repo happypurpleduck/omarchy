@@ -21,6 +21,7 @@ install/personal/packaging/base.sh
 install/personal/packaging/all.sh
 install/personal/packaging/zed.sh
 install/personal/packaging/webapps.sh
+install/personal/helpers/fork-git.sh
 install/personal/bin/yay
 install/personal/packages.add
 install/personal/packages.remove
@@ -28,6 +29,7 @@ install/personal/packages.on-demand
 install/personal/patches/network-iwd.sh
 install/personal/patches/walker-pin.sh
 
+config/omarchy/fork.conf
 config/hypr/bindings.lua
 config/hypr/input.lua
 config/fontconfig/fonts.conf
@@ -40,3 +42,9 @@ config/waybar/config.jsonc
 default/bash/aliases
 default/mako/core.ini
 default/omarchy-skill/SKILL.md
+
+bin/omarchy-install-zed
+bin/omarchy-update-git
+bin/omarchy-update-available
+bin/omarchy-update-confirm
+bin/omarchy-reinstall-git

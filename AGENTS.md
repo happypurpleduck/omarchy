@@ -135,3 +135,12 @@ if omarchy-cmd-missing fprintd-list || ! fprintd-list "$USER" 2>/dev/null | grep
   sed -i 's/fingerprint:enabled = .*/fingerprint:enabled = false/' ~/.config/hypr/hyprlock.conf
 fi
 ```
+
+# Personal Fork (CachyOS)
+
+This repository is a **personal overlay** on [basecamp/omarchy](https://github.com/basecamp/omarchy) `dev` (4.0 alpha), tuned for CachyOS + Hyprland. Read [`PERSONAL.md`](PERSONAL.md) for the full decision log and rebase workflow.
+
+- Prefer adding changes under `install/personal/` and config templates listed in [`.personal-files`](.personal-files)
+- Avoid editing upstream hook files when a personal overlay hook can source the change instead
+- Install locally via `./boot.sh` (rsync to `~/.local/share/omarchy`); updates pull from the fork via `config/omarchy/fork.conf`
+- After rebasing onto `upstream/dev`, run `./scripts/apply-personal-overlay.sh` and `./scripts/verify.sh`

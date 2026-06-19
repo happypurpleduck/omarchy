@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Override upstream Tokyo Night default with Catppuccin; sync Helium flags.
 

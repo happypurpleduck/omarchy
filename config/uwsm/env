@@ -8,8 +8,8 @@ export PATH=$OMARCHY_PATH/bin:$PATH:$HOME/.local/bin
 source ~/.config/uwsm/default
 
 # Activate mise if present on the system (bash and fish)
-if [ "$SHELL" = "/bin/bash" ] && omarchy-cmd-present mise; then
+if [[ $SHELL == "/bin/bash" ]] && omarchy-cmd-present mise; then
   eval "$(mise activate bash --shims)"
-elif [ "$SHELL" = "/bin/fish" ] && omarchy-cmd-present mise; then
+elif [[ $SHELL == "/bin/fish" ]] && omarchy-cmd-present mise; then
   mise activate fish | source
 fi
