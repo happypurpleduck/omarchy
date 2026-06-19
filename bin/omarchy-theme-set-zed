@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# omarchy:summary=Sync Omarchy theme to Zed (extensions, theme, icon theme)
+# omarchy:hidden=true
+
+ZED_THEME="$HOME/.config/omarchy/current/theme/zed.json"
+ZED_SETTINGS="$HOME/.config/zed/settings.json"
+
+omarchy-cmd-present zed || omarchy-cmd-present zeditor || exit 0
+
+if [[ ! -f $ZED_SETTINGS ]]; then
+  mkdir -p "$(dirname "$ZED_SETTINGS")"
+  if [[ -f $OMARCHY_PATH/config/zed/settings.json ]]; then
+    cp -f "$OMARCHY_PATH/config/zed/settings.json" "$ZED_SETTINGS"
+  else
+    printf '{}\n' >"$ZED_SETTINGS"
+  fi
+fi
+
+if [[ -f $ZED_THEME ]]; then
+  python3 - "$ZED_SETTINGS" "$ZED_THEME" <<'PY'
+import json
+import re
+import sys
+
+settings_path, theme_path = sys.argv[1:3]
+
+with open(settings_path, encoding="utf-8") as handle:
+    settings_text = handle.read()
+
+with open(theme_path, encoding="utf-8") as handle:
+    theme_data = json.load(handle)
+
+text = re.sub(r"//[^\n]*", "", settings_text)
+text = re.sub(r",(\s*[}\]])", r"\1", text)
+settings = json.loads(text)
+
+extensions = theme_data.get("extensions", {})
+if extensions:
+  auto_install = settings.setdefault("auto_install_extensions", {})
+  for extension_id, enabled in extensions.items():
+    auto_install[extension_id] = enabled
+
+for key in ("theme", "icon_theme"):
+  if key in theme_data:
+    settings[key] = theme_data[key]
+
+output = json.dumps(settings, indent=2)
+with open(settings_path, "w", encoding="utf-8") as handle:
+  handle.write("// Zed settings — theme sections managed by omarchy-theme-set-zed\n")
+  handle.write(output)
+  handle.write("\n")
+PY
+elif omarchy-cmd-present omazed; then
+  omazed sync
+fi

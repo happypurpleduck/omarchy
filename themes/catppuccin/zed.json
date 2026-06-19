@@ -1,0 +1,14 @@
+{
+  "extensions": {
+    "catppuccin": true,
+    "catppuccin-icons": true
+  },
+  "theme": {
+    "dark": "Catppuccin Mocha",
+    "light": "Catppuccin Latte"
+  },
+  "icon_theme": {
+    "dark": "Catppuccin Mocha",
+    "light": "Catppuccin Latte"
+  }
+}

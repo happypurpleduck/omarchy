@@ -15,8 +15,4 @@ fi
 
 omarchy-pkg-add omazed
 
-if omarchy-cmd-present omazed; then
-  omazed setup
-fi
-
 omarchy-default-editor zed

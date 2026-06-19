@@ -26,7 +26,7 @@ git rebase upstream/dev
 | AUR helper | **paru** + `install/personal/bin/yay` wrapper for upstream scripts |
 | Omarchy pacman repo | **Keep** — added in personal preflight (skip upstream pacman overwrite); **CachyOS repos** restored via `omarchy-refresh-cachyos-repos` and `pre-refresh-pacman` hook |
 | Browser | **Helium** (`helium-browser-bin`) |
-| Editors | **Zed** (`VISUAL_EDITOR`) + **omarchy-nvim** / `EDITOR=nvim` |
+| Editors | **Zed** (`VISUAL_EDITOR`) + **omarchy-nvim** / `EDITOR=nvim`; configs in `config/zed/`; Catppuccin extensions via `auto_install_extensions` |
 | Network | **impala + iwd** + NM **iwd backend** patch (omarchy-on-cachyos) |
 | Terminal | **Foot only** (upstream dev) |
 | Wallpaper | swaybg + Quickshell (no hyprpaper) |
@@ -34,13 +34,13 @@ git rebase upstream/dev
 | Theme default | **Catppuccin** |
 | Keyboard | **us,ara** + `grp:alt_shift_toggle` (Alt+Shift); HJKL focus remap, Walker on Super+Return, menu on Super+Space, scratchpad on Super+grave (see keybind table below) |
 | Fonts | Noto Arabic rules in fontconfig; monospace **assign** override for JetBrainsMono Nerd Font |
-| Webapps | Teams + YouTube Music preinstall; Discord binding; YouTube Music replaces Spotify keybind |
+| Webapps | Teams + YouTube Music + **Tailscale** admin preinstall; Discord binding; YouTube Music replaces Spotify keybind |
 | Login stage | **Skip** entire `login/all.sh` (unconditional) |
 
 ## Package sidecars
 
 - **remove:** chromium, yay, signal-desktop, spotify
-- **add:** helium-browser-bin, paru, cursor-bin, noto-fonts-extra (Arabic)
+- **add:** helium-browser-bin, paru, cursor-bin, noto-fonts-extra (Arabic), tailscale
 - **on-demand:** signal-desktop, spotify (Install → Service in omarchy menu)
 
 ## Keybind overrides

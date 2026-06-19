@@ -406,7 +406,7 @@ This repository is a **personal overlay** on upstream Omarchy dev, tuned for **C
 ### Personal preferences
 
 - **Browser:** Helium (`helium-browser-bin`) — default browser, theme sync, flags in `config/helium-browser-flags.conf`
-- **Editors:** Zed (`VISUAL_EDITOR`) + Neovim/omarchy-nvim (`EDITOR`)
+- **Editors:** Zed (`VISUAL_EDITOR`) + Neovim/omarchy-nvim (`EDITOR`); `config/zed/` defaults with Catppuccin extensions via `auto_install_extensions`
 - **Keyboard:** `us,ara` with Alt+Shift layout toggle; Arabic fontconfig rules
 - **Theme default:** Catppuccin
 - **Updates:** waybar update module + mako update notification; git pull targets fork (`config/omarchy/fork.conf`, branch `dev`)
