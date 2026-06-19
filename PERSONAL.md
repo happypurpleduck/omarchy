@@ -24,7 +24,7 @@ git rebase upstream/dev
 |-------|--------|
 | Integration | In-repo overlay (`install/personal/` + config templates); **`boot.sh`** rsyncs local clone to `~/.local/share/omarchy` (no curl/git clone) |
 | AUR helper | **paru** + `install/personal/bin/yay` wrapper for upstream scripts |
-| Omarchy pacman repo | **Keep** — added in personal preflight (skip upstream pacman overwrite) |
+| Omarchy pacman repo | **Keep** — added in personal preflight (skip upstream pacman overwrite); **CachyOS repos** restored via `omarchy-refresh-cachyos-repos` and `pre-refresh-pacman` hook |
 | Browser | **Helium** (`helium-browser-bin`) |
 | Editors | **Zed** (`VISUAL_EDITOR`) + **omarchy-nvim** / `EDITOR=nvim` |
 | Network | **impala + iwd** + NM **iwd backend** patch (omarchy-on-cachyos) |

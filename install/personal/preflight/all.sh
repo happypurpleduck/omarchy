@@ -1,6 +1,10 @@
 
 # CachyOS: add omarchy repo without overwriting CachyOS pacman.conf via upstream hooks.
 
+# shellcheck disable=SC1091
+source "$OMARCHY_PATH/install/personal/helpers/cachyos-pacman-repos.sh"
+omarchy_cachyos_pacman_repos_ensure
+
 if ! grep -q '^\[omarchy\]' /etc/pacman.conf 2>/dev/null; then
   echo "Adding omarchy pacman repository..."
   sudo pacman-key --recv-keys F0134EE680CAC571

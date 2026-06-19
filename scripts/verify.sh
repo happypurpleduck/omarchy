@@ -16,10 +16,17 @@ echo "Repo: $ROOT"
 echo
 
 if [[ -f /etc/arch-release ]]; then pass "Arch-based system"; else fail "Missing /etc/arch-release"; fi
-if [[ -f /etc/cachyos-release ]]; then pass "CachyOS detected"; else warn "CachyOS release file not found (ok on other Arch systems)"; fi
+if [[ -f /etc/cachyos-release ]] || { [[ -f /etc/os-release ]] && grep -q '^ID=cachyos$' /etc/os-release; }; then pass "CachyOS detected"; else warn "CachyOS release file not found (ok on other Arch systems)"; fi
 if (( EUID != 0 )); then pass "Running as user ($USER)"; else fail "Do not run boot.sh as root"; fi
 if pacman -Q hyprland &>/dev/null || command -v Hyprland &>/dev/null; then pass "Hyprland available"; else fail "Hyprland not installed"; fi
 if command -v paru &>/dev/null; then pass "paru AUR helper available"; else fail "paru not installed (required on CachyOS)"; fi
+if [[ -f /etc/cachyos-release ]] || { [[ -f /etc/os-release ]] && grep -q '^ID=cachyos$' /etc/os-release; }; then
+  if grep -q 'cachyos-repos.conf' /etc/pacman.conf 2>/dev/null || grep -q '^\[cachyos' /etc/pacman.conf 2>/dev/null; then
+    pass "CachyOS pacman repositories configured"
+  else
+    warn "CachyOS pacman repositories missing from /etc/pacman.conf (run: omarchy refresh cachyos-repos)"
+  fi
+fi
 if sudo -n true 2>/dev/null; then pass "Passwordless sudo"; else warn "sudo will prompt for your password during ./boot.sh"; fi
 
 if "$ROOT/bin/omarchy" --help &>/dev/null; then pass "omarchy CLI responds"; else fail "omarchy CLI broken"; fi

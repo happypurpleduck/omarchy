@@ -13,6 +13,7 @@ scripts/apply-personal-overlay.sh
 install/personal/preflight/all.sh
 install/personal/post-install/all.sh
 install/personal/config/all.sh
+install/personal/config/cachyos-pacman.sh
 install/personal/config/theme.sh
 install/personal/config/mimetypes.sh
 install/personal/config/fish.sh
@@ -21,6 +22,7 @@ install/personal/packaging/base.sh
 install/personal/packaging/all.sh
 install/personal/packaging/zed.sh
 install/personal/packaging/webapps.sh
+install/personal/helpers/cachyos-pacman-repos.sh
 install/personal/helpers/fork-git.sh
 install/personal/bin/yay
 install/personal/packages.add
@@ -44,6 +46,7 @@ default/mako/core.ini
 default/omarchy-skill/SKILL.md
 
 bin/omarchy-install-zed
+bin/omarchy-refresh-cachyos-repos
 bin/omarchy-update-git
 bin/omarchy-update-available
 bin/omarchy-update-confirm

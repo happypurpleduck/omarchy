@@ -13,7 +13,7 @@ if [[ ! -f /etc/arch-release ]]; then
   abort "Arch-based distro (/etc/arch-release)"
 fi
 
-if [[ ! -f /etc/cachyos-release ]]; then
+if [[ ! -f /etc/cachyos-release ]] && { [[ ! -f /etc/os-release ]] || ! grep -q '^ID=cachyos$' /etc/os-release; }; then
   warn "CachyOS not detected — this personal overlay is tuned for CachyOS but may work on other Arch derivatives"
 fi
 

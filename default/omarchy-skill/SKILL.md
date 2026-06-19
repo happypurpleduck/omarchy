@@ -400,6 +400,7 @@ This repository is a **personal overlay** on upstream Omarchy dev, tuned for **C
 - Local install via `./boot.sh` (rsync to `~/.local/share/omarchy`, no online curl clone)
 - Skip login stage on CachyOS (preserve existing bootloader/display manager)
 - Skip upstream pacman.conf overwrite; add omarchy repo in `install/personal/preflight/`
+- Restore CachyOS repos via `omarchy-refresh-cachyos-repos` and `pre-refresh-pacman` hook (auto-detects v3/v4/znver4 tier)
 - **paru** replaces yay; `install/personal/bin/yay` wrapper keeps upstream AUR scripts working
 
 ### Personal preferences

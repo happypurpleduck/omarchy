@@ -22,5 +22,11 @@ sudo cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-$channel" /etc/pacman.d/mirr
 # Allow user customization of /etc/pacman.conf before the upgrade runs
 omarchy-hook pre-refresh-pacman
 
+if [[ -f $OMARCHY_PATH/install/personal/helpers/cachyos-pacman-repos.sh ]]; then
+  # shellcheck disable=SC1091
+  source "$OMARCHY_PATH/install/personal/helpers/cachyos-pacman-repos.sh"
+  omarchy_cachyos_pacman_repos_ensure
+fi
+
 # Reset all package DBs and then update
 sudo pacman -Syyuu --noconfirm
