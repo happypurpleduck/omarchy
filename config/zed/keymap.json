@@ -1,0 +1,27 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-alt-b": "workspace::ToggleLeftDock",
+      "ctrl-b": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "VimControl",
+    "bindings": {
+      "ctrl-alt-b": "workspace::ToggleLeftDock",
+      "ctrl-b": "workspace::ToggleRightDock",
+      "ctrl-j": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "g r": "editor::FindAllReferences",
+      "space e": "project_panel::ToggleFocus",
+      "space g g": "git_panel::ToggleFocus"
+    }
+  }
+]

@@ -39,6 +39,7 @@ config/uwsm/default
 config/uwsm/env
 config/zed/settings.json
 config/zed/keymap.json
+config/fontconfig/conf.d/99-arabic-fix.conf
 config/waybar/config.jsonc
 
 default/bash/aliases
