@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# omarchy:summary=Restart the Quickshell omarchy bar
+# omarchy:group=quickshell
+# omarchy:hidden=true
+set -euo pipefail
+
+omarchy-quickshell-bar-stop
+sleep 0.2
+omarchy-quickshell-bar-start

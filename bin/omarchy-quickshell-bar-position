@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# omarchy:summary=Move the Quickshell omarchy bar to a screen edge
+# omarchy:group=quickshell
+# omarchy:args=top|bottom|left|right
+# omarchy:examples=omarchy quickshell bar-position top | omarchy quickshell bar-position bottom
+# omarchy:hidden=true
+set -euo pipefail
+
+position=${1:-}
+state_dir="$HOME/.local/state/omarchy/quickshell-bar"
+position_file="$state_dir/position"
+config_dir="$HOME/.config/quickshell/omarchy-bar"
+
+case "$position" in
+  top|bottom|left|right) ;;
+  *)
+    echo "Usage: omarchy-quickshell-bar-position top|bottom|left|right" >&2
+    exit 1
+    ;;
+esac
+
+mkdir -p "$state_dir"
+printf '%s\n' "$position" > "$position_file"
+
+if ! quickshell list --path "$config_dir" --any-display 2>/dev/null | grep -q "No running instances"; then
+  omarchy-quickshell-bar-restart
+fi

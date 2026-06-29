@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# omarchy:summary=Output JSON for a Quickshell bar status module
+# omarchy:group=quickshell
+# omarchy:args=weather|update|screenrecording|idle|notifications|voxtype|network|audio|battery|bluetooth|cpu|workspaces
+# omarchy:hidden=true
+set -euo pipefail
+
+module=${1:-}
+omarchy_path=${OMARCHY_PATH:-"$HOME/.local/share/omarchy"}
+
+json_escape() {
+  printf '%s' "${1:-}" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+json_text() {
+  local text=${1:-}
+  local tooltip=${2:-}
+  local class=${3:-}
+  printf '{"text":"%s","tooltip":"%s","class":"%s"}\n' "$(json_escape "$text")" "$(json_escape "$tooltip")" "$(json_escape "$class")"
+}
+
+battery_icon() {
+  local capacity=$1
+  local charging=${2:-false}
+
+  if [[ $charging == true ]]; then
+    case $((capacity / 10)) in
+      0) echo "󰢜" ;;
+      1) echo "󰂆" ;;
+      2) echo "󰂇" ;;
+      3) echo "󰂈" ;;
+      4) echo "󰢝" ;;
+      5) echo "󰂉" ;;
+      6) echo "󰢞" ;;
+      7) echo "󰂊" ;;
+      8) echo "󰂋" ;;
+      *) echo "󰂅" ;;
+    esac
+  else
+    case $((capacity / 10)) in
+      0) echo "󰁺" ;;
+      1) echo "󰁻" ;;
+      2) echo "󰁼" ;;
+      3) echo "󰁽" ;;
+      4) echo "󰁾" ;;
+      5) echo "󰁿" ;;
+      6) echo "󰂀" ;;
+      7) echo "󰂁" ;;
+      8) echo "󰂂" ;;
+      *) echo "󰁹" ;;
+    esac
+  fi
+}
+
+case "$module" in
+  weather)
+    "$omarchy_path/default/waybar/weather.sh" 2>/dev/null || json_text ""
+    ;;
+  update)
+    if output=$(omarchy-update-available 2>/dev/null); then
+      json_text "" "$output" "active"
+    else
+      json_text ""
+    fi
+    ;;
+  screenrecording)
+    "$omarchy_path/default/waybar/indicators/screen-recording.sh" 2>/dev/null || json_text ""
+    ;;
+  idle)
+    "$omarchy_path/default/waybar/indicators/idle.sh" 2>/dev/null || json_text ""
+    ;;
+  notifications)
+    "$omarchy_path/default/waybar/indicators/notification-silencing.sh" 2>/dev/null || json_text ""
+    ;;
+  voxtype)
+    omarchy-voxtype-status 2>/dev/null || json_text ""
+    ;;
+  network)
+    iface=$(ip route get 1.1.1.1 2>/dev/null | awk '{for (i = 1; i <= NF; i++) if ($i == "dev") { print $(i + 1); exit }}')
+    if [[ -z ${iface:-} ]]; then
+      json_text "󰤮" "Disconnected" "disconnected"
+      exit 0
+    fi
+
+    if [[ $iface == wl* ]]; then
+      ssid=$(iwgetid -r 2>/dev/null || true)
+      quality=$(awk -v iface="$iface" '$1 ~ iface ":" { split($3, q, "."); print q[1] }' /proc/net/wireless 2>/dev/null || true)
+      quality=${quality:-0}
+      if ((quality >= 56)); then icon="󰤨"
+      elif ((quality >= 42)); then icon="󰤥"
+      elif ((quality >= 28)); then icon="󰤢"
+      elif ((quality >= 14)); then icon="󰤟"
+      else icon="󰤯"
+      fi
+      json_text "$icon" "${ssid:-Wifi} (${iface})" "wifi"
+    else
+      json_text "󰀂" "Connected (${iface})" "ethernet"
+    fi
+    ;;
+  audio)
+    raw=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null || true)
+    if [[ -z $raw ]]; then
+      json_text "" "Audio unavailable" "muted"
+      exit 0
+    fi
+
+    volume=$(awk '{ printf "%d", $2 * 100 }' <<<"$raw")
+    if grep -q MUTED <<<"$raw"; then
+      json_text "" "Muted" "muted"
+    elif ((volume >= 67)); then
+      json_text "" "Playing at ${volume}%"
+    elif ((volume >= 34)); then
+      json_text "" "Playing at ${volume}%"
+    else
+      json_text "" "Playing at ${volume}%"
+    fi
+    ;;
+  battery)
+    device=$(upower -e 2>/dev/null | grep -m1 battery || true)
+    if [[ -z $device ]]; then
+      json_text "" "No battery"
+      exit 0
+    fi
+
+    info=$(upower -i "$device" 2>/dev/null || true)
+    capacity=$(awk '/percentage:/ { gsub("%", "", $2); print int($2); exit }' <<<"$info")
+    state=$(awk '/state:/ { print $2; exit }' <<<"$info")
+    rate=$(awk '/energy-rate:/ { print $2; exit }' <<<"$info")
+    capacity=${capacity:-0}
+
+    class=""
+    if ((capacity <= 10)); then class="critical"
+    elif ((capacity <= 20)); then class="warning"
+    fi
+
+    case "$state" in
+      charging) json_text "$(battery_icon "$capacity" true)" "${rate:-?}W↑ ${capacity}%" "$class" ;;
+      fully-charged) json_text "󰂅" "${capacity}%" "$class" ;;
+      pending-charge) json_text "" "${capacity}%" "$class" ;;
+      *) json_text "$(battery_icon "$capacity" false)" "${rate:-?}W↓ ${capacity}%" "$class" ;;
+    esac
+    ;;
+  bluetooth)
+    if ! command -v bluetoothctl >/dev/null; then
+      json_text "" "Bluetooth unavailable"
+      exit 0
+    fi
+
+    if ! bluetoothctl show 2>/dev/null | grep -q "Powered: yes"; then
+      json_text "󰂲" "Bluetooth off" "disabled"
+      exit 0
+    fi
+
+    connected=$(bluetoothctl devices Connected 2>/dev/null | wc -l)
+    if ((connected > 0)); then
+      json_text "󰂱" "Devices connected: $connected" "connected"
+    else
+      json_text "" "Devices connected: 0"
+    fi
+    ;;
+  cpu)
+    json_text "󰍛" "Activity"
+    ;;
+  workspaces)
+    hyprctl workspaces -j 2>/dev/null | python -c '
+import json, sys, subprocess
+try:
+    workspaces = json.load(sys.stdin)
+except Exception:
+    workspaces = []
+try:
+    active = json.loads(subprocess.check_output(["hyprctl", "activeworkspace", "-j"], text=True)).get("id")
+except Exception:
+    active = None
+
+existing = {w.get("id") for w in workspaces if isinstance(w.get("id"), int) and w.get("id") > 0}
+ids = set(existing)
+ids.update(range(1, 6))
+rows = []
+for wid in sorted(ids):
+    if wid > 10:
+        continue
+    rows.append({
+        "id": wid,
+        "label": "0" if wid == 10 else str(wid),
+        "active": wid == active,
+        "empty": wid not in existing,
+    })
+print(json.dumps({"workspaces": rows}))
+'
+    ;;
+  *)
+    json_text ""
+    ;;
+esac

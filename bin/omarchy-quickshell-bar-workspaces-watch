@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# omarchy:summary=Emit workspace JSON on Hyprland workspace events
+# omarchy:group=quickshell
+# omarchy:hidden=true
+set -euo pipefail
+
+emit() {
+  omarchy-quickshell-bar-module workspaces
+}
+
+emit
+
+runtime_dir=${XDG_RUNTIME_DIR:-/run/user/$UID}
+socket_path="$runtime_dir/hypr/${HYPRLAND_INSTANCE_SIGNATURE:-}/.socket2.sock"
+
+if [[ ! -S $socket_path ]]; then
+  while sleep 5; do
+    emit
+  done
+fi
+
+socat -u "UNIX-CONNECT:$socket_path" - | while IFS= read -r event; do
+  case "$event" in
+    workspace*|focusedmon*|createworkspace*|destroyworkspace*|moveworkspace*|openwindow*|closewindow*)
+      emit
+      ;;
+  esac
+done

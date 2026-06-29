@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# omarchy:summary=Toggle the Quickshell omarchy bar on/off
+# omarchy:group=quickshell
+# omarchy:hidden=true
+set -euo pipefail
+
+config_dir="$HOME/.config/quickshell/omarchy-bar"
+
+if ! quickshell list --path "$config_dir" --any-display 2>/dev/null | grep -q "No running instances"; then
+  omarchy-quickshell-bar-stop
+else
+  omarchy-quickshell-bar-start
+fi

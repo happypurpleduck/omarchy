@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# omarchy:summary=Start the Quickshell omarchy bar
+# omarchy:group=quickshell
+# omarchy:hidden=true
+set -euo pipefail
+
+config_dir="$HOME/.config/quickshell/omarchy-bar"
+state_dir="$HOME/.local/state/omarchy/quickshell-bar"
+position_file="$state_dir/position"
+
+mkdir -p "$state_dir"
+position=$(cat "$position_file" 2>/dev/null || printf 'top')
+
+export OMARCHY_QUICKSHELL_BAR_POSITION="$position"
+
+if ! quickshell list --path "$config_dir" --any-display 2>/dev/null | grep -q "No running instances"; then
+  exit 0
+fi
+
+setsid quickshell --path "$config_dir" >/dev/null 2>&1 &
