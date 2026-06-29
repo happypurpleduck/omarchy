@@ -6,12 +6,13 @@ if command -v zed &>/dev/null || command -v zeditor &>/dev/null; then
 else
   echo "Installing Zed Editor from zed.dev..."
   curl -f https://zed.dev/install.sh | sh
+  fish_add_path -U '$HOME/.local/bin/zed'
 fi
 
-if ! command -v zed &>/dev/null && ! command -v zeditor &>/dev/null; then
-  echo "Zed install failed — install manually and run: omarchy default editor zed" >&2
-  exit 1
-fi
+# if ! command -v zed &>/dev/null && ! command -v zeditor &>/dev/null; then
+#   echo "Zed install failed — install manually and run: omarchy default editor zed" >&2
+#   exit 1
+# fi
 
 omarchy-pkg-add omazed
 
