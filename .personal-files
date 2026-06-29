@@ -28,6 +28,7 @@ install/personal/packages.remove
 install/personal/packages.on-demand
 install/personal/patches/network-iwd.sh
 install/personal/patches/walker-pin.sh
+install/personal/config/quickshell-bar.sh
 
 config/omarchy/fork.conf
 config/hypr/bindings.lua
@@ -41,6 +42,16 @@ config/zed/settings.json
 config/zed/keymap.json
 config/fontconfig/conf.d/99-arabic-fix.conf
 config/waybar/config.jsonc
+config/xdg-terminals.list
+config/btop/btop.conf
+config/quickshell/omarchy-bar/shell.qml
+config/quickshell/omarchy-bar/StatusModule.qml
+config/quickshell/omarchy-bar/TrayItems.qml
+config/quickshell/omarchy-bar/Workspaces.qml
+config/hypr/envs.lua
+config/hypr/monitors.lua
+config/hypr/autostart.lua
+config/hypr/hypridle.conf
 
 default/bash/aliases
 default/mako/core.ini
@@ -51,3 +62,10 @@ bin/omarchy-update-git
 bin/omarchy-update-available
 bin/omarchy-update-confirm
 bin/omarchy-reinstall-git
+bin/omarchy-quickshell-bar-start
+bin/omarchy-quickshell-bar-stop
+bin/omarchy-quickshell-bar-restart
+bin/omarchy-quickshell-bar-toggle
+bin/omarchy-quickshell-bar-position
+bin/omarchy-quickshell-bar-module
+bin/omarchy-quickshell-bar-workspaces-watch
