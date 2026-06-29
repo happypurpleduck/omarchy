@@ -10,6 +10,8 @@ hl.config({
 
     numlock_by_default = true,
 
+    sensitivity = -1,
+
     touchpad = {
       clickfinger_behavior = true,
       scroll_factor = 0.4,
