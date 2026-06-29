@@ -1,5 +1,5 @@
 
-omarchy-default-browser helium || true
+omarchy-default-browser chromium || true
 
 # GUI text editing via Zed when available
 if command -v zeditor &>/dev/null || command -v zed &>/dev/null; then

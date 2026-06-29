@@ -25,7 +25,7 @@ git rebase upstream/dev
 | Integration | In-repo overlay (`install/personal/` + config templates); **`boot.sh`** rsyncs local clone to `~/.local/share/omarchy` (no curl/git clone) |
 | AUR helper | **paru** + `install/personal/bin/yay` wrapper for upstream scripts |
 | Omarchy pacman repo | **Keep** — added in personal preflight (skip upstream pacman overwrite) |
-| Browser | **Helium** (`helium-browser-bin`) |
+| Browser | **Chromium** |
 | Editors | **Zed** (`VISUAL_EDITOR`) + **omarchy-nvim** / `EDITOR=nvim` |
 | Network | **impala + iwd** + NM **iwd backend** patch (omarchy-on-cachyos) |
 | Terminal | **Foot only** (upstream dev) |
@@ -39,8 +39,8 @@ git rebase upstream/dev
 
 ## Package sidecars
 
-- **remove:** chromium, yay, signal-desktop, spotify
-- **add:** helium-browser-bin, paru, cursor-bin, noto-fonts-extra (Arabic)
+- **remove:** yay, signal-desktop, spotify
+- **add:** paru, cursor-bin, noto-fonts-extra (Arabic)
 - **on-demand:** signal-desktop, spotify (Install → Service in omarchy menu)
 
 ## Keybind overrides

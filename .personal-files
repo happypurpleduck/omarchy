@@ -33,10 +33,12 @@ config/omarchy/fork.conf
 config/hypr/bindings.lua
 config/hypr/input.lua
 config/fontconfig/fonts.conf
-config/helium-browser-flags.conf
+config/chromium-flags.conf
 config/fish/conf.d/omarchy.fish
 config/uwsm/default
 config/uwsm/env
+config/zed/settings.json
+config/zed/keymap.json
 config/waybar/config.jsonc
 
 default/bash/aliases
