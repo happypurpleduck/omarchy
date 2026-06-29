@@ -33,4 +33,4 @@ fi
 
 export EDITOR="$editor"
 export VISUAL_EDITOR="$visual"
-notify-send -u low "$glyph    $name is now the default editor" "      Effective after logging out"
+omarchy-notification-send "$name is now the default editor" "Effective after logging out" -g "$glyph" -u low || true
