@@ -7,3 +7,4 @@ run_logged $OMARCHY_INSTALL/personal/config/theme.sh
 run_logged $OMARCHY_INSTALL/personal/config/mimetypes.sh
 run_logged $OMARCHY_INSTALL/personal/patches/network-iwd.sh
 run_logged $OMARCHY_INSTALL/personal/patches/walker-pin.sh
+run_logged $OMARCHY_INSTALL/personal/config/quickshell-bar.sh
